@@ -2173,55 +2173,55 @@ int SDL_main(int argc, char* argv[]){
     //     }
     // }
 
-    // {
-    // int numX = 10;
-    // int numY = 10;
-    // int radius = 1;
-    // float springStrength = 0.005;
+    {
+    int numX = 10;
+    int numY = 10;
+    int radius = 1;
+    float springStrength = 0.005;
 
-    // int baseIndex = objects.size();
+    int baseIndex = objects.size();
 
-    // for (int i = 0; i < numX * numY; i++){
-    //     createObj(objects, 
-    //               {radius + (float)(i % numX) * (380 / 9 - radius), -200, 
-    //                radius + (float)(i / numY) * (380 / 9 - radius)},
-    //               {0, 127, 255}, 
-    //               radius, 
-    //               2, 
-    //               false, 
-    //               (i == 0 || i == numX - 1 || i == numX * numY - numX || i == numX * numY - 1),
-    //               false,
-    //               false);
-    // }
+    for (int i = 0; i < numX * numY; i++){
+        createObj(objects, 
+                  {radius + (float)(i % numX) * (380 / 9 - radius), -200, 
+                   radius + (float)(i / numY) * (380 / 9 - radius)},
+                  {0, 127, 255}, 
+                  radius, 
+                  2, 
+                  false, 
+                  (i == 0 || i == numX - 1 || i == numX * numY - numX || i == numX * numY - 1),
+                  false,
+                  false);
+    }
 
-    // for (int i = baseIndex; i < baseIndex + numX * numY; i++) {
-    //     int localIndex = i - baseIndex;
-    //     int row = localIndex / numX;
-    //     int col = localIndex % numX;
+    for (int i = baseIndex; i < baseIndex + numX * numY; i++) {
+        int localIndex = i - baseIndex;
+        int row = localIndex / numX;
+        int col = localIndex % numX;
 
-    //     // Skip last row/column for faces
-    //     if (row < numY - 1 && col < numX - 1) {
-    //         createFace(faces, i + numX, i + 1, i, {0, 127, 255}, false);
+        // Skip last row/column for faces
+        if (row < numY - 1 && col < numX - 1) {
+            createFace(faces, i + numX, i + 1, i, {0, 127, 255}, false);
 
-    //         createFace(faces, i + numX, i + numX + 1, i + 1, {0, 127, 255}, false);
-    //     }
+            createFace(faces, i + numX, i + numX + 1, i + 1, {0, 127, 255}, false);
+        }
 
-    //     // Right neighbor spring
-    //     if (col < numX - 1) {
-    //         createSpring(objects, springs, i, i+1, springStrength);
-    //     }
+        // Right neighbor spring
+        if (col < numX - 1) {
+            createSpring(objects, springs, i, i+1, springStrength);
+        }
 
-    //     // Down neighbor spring
-    //     if (row < numY - 1) {
-    //         createSpring(objects, springs, i, i + numX, springStrength);
-    //     }
+        // Down neighbor spring
+        if (row < numY - 1) {
+            createSpring(objects, springs, i, i + numX, springStrength);
+        }
 
-    //     // Down-right diagonal spring
-    //     if (col < numX - 1 && row < numY - 1) {
-    //         createSpring(objects, springs, i + 1, i + numX, springStrength);
-    //     }
-    // }
-    // }
+        // Down-right diagonal spring
+        if (col < numX - 1 && row < numY - 1) {
+            createSpring(objects, springs, i + 1, i + numX, springStrength);
+        }
+    }
+    }
 
     // SPRING
 
