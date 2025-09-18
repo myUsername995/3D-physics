@@ -1040,8 +1040,6 @@ void springForce(vector<object>& objects, Spring spring){
     float dist = vectorLength(delta);
     if (dist < 0.0001f) return;
 
-    cout << "Spring resolution\n";
-
     float diff = (dist - spring.restingDist) / dist;
     vec3d correction = delta * spring.k * 0.5f * diff;
 
@@ -1057,8 +1055,6 @@ void linkForce(vector<object>& objects, Link link){
     double currentDist = vectorLength(linkAxis);
 
     if (currentDist < 1e-6) return;
-
-    cout << "Link resolution\n";
 
     vec3d correction = vectorMul(linkAxis, 1 / currentDist) * (currentDist - link.distance);
 
@@ -1085,8 +1081,6 @@ void collisionForce(object& circle1, object& circle2) {
     float minDistSq = minDist * minDist;
 
     if (distSq > minDistSq) return; // no collision
-
-    cout << "Ball collision\n";
 
     float dist = sqrt(distSq);
     float overlap = minDist - dist;
@@ -1247,8 +1241,6 @@ void collisionForceFace(vector<object>& objects, object& circle1, vector<physics
 
     if (curDirection == prevDirection) return;
 
-    cout << "Face collision\n";
-
     // Distance from current sphere center to plane
     double distToPlane = vectorDot(circle1.midP - v0.midP, -planeNormal);
 
@@ -1277,18 +1269,8 @@ void collisionForceFace(vector<object>& objects, object& circle1, vector<physics
     vec3d newVel1 = tangentV1 + newNormalV1;
     vec3d newVel2 = tangentV2 + newNormalV2;
 
-    cout << "Velocity: " << newVel1.x << ' ' << newVel1.y << ' ' << newVel1.z << endl;
-
     // Update the ball
-    for (int i = 0; i < 4; i++){
-        circle1.prevMid = circle1.midP;
-        circle1.midP = circle1.prevMid + newVel1 * 1e+4;
-    }
-
-    cout << "Prev mid:" << circle1.prevMid.x << ' ' << circle1.prevMid.y << ' ' << circle1.prevMid.z << endl;
-    cout << "midP: " << circle1.midP.x << ' ' << circle1.midP.y << ' ' << circle1.midP.z << endl;
-
-    //circle1.prevMid = circle1.midP - newVel1;
+    circle1.prevMid = circle1.midP - newVel1;
 
     // Update the planes
     if (!v0.anchored) v0.midP = v0.prevMid + newVel2;
@@ -2063,16 +2045,11 @@ int SDL_main(int argc, char* argv[]){
     vector<physicsFace> faces;
     
     vector<rectangle> boundingBs;
-    
-    if (argc < 2){
-        cout << "No obj file passed inside argv!\n";
-        exit(1);
-    }
 
     // Rotate the map so that it looks horizontal
     meshObj.vertices.resize(1);
     vec3d rotation = {0, 0, 0};
-    parseObj(argv[1], rotation);
+    parseObj("grid.obj", rotation);
 
     // CUBE
     // int numX = 4;
@@ -2378,26 +2355,6 @@ int SDL_main(int argc, char* argv[]){
 
     // createLink(objects, links, getFlatIndex(1,0,0), getFlatIndex(0,1,1), false);
     // }
-
-    // Single test face
-    for (float i = 0; i < 2; i++){
-        for (float j = 0; j < 2; j++){
-            createObj(objects,
-                      {i * 380, -100, j * 380},
-                      {0, 127, 255},
-                      1,
-                      4, 
-                      false,
-                      true,
-                      false,
-                      false
-            );
-        }
-    }
-
-    createFace(faces, 0, 1, 2, {255, 255, 255}, false);
-
-    createFace(faces, 1, 2, 3, {255, 255, 255}, false);
 
     // Initialisation
     for (auto& face : faces){
@@ -3155,3 +3112,4 @@ int SDL_main(int argc, char* argv[]){
 
     return 0;
 }
+
