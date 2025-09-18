@@ -4,7 +4,7 @@ g++ -O3 -g -o graphics graphics.cpp glad/glad.c -I"" -I"." -L"" -lSDL3 -lSDL3_tt
 
 
 Dependencies:
-C++ compiler
-SDL3 and SDL3_ttf
-GLAD
+C++ compiler \n
+SDL3 and SDL3_ttf \n
+GLAD \n
 
