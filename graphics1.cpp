@@ -2871,24 +2871,12 @@ int SDL_main(int argc, char* argv[]){
                     }
                     break;
                 case SDL_EVENT_KEY_DOWN:
-                    if (event.key.key == SDLK_BACKSPACE){
-                        doRotation = !doRotation;
-                    }
                     // Anchor the object the user is looking at
                     if (event.key.key == SDLK_R){
                         int nearest = nearestSphere(objects, forward, camera);
                         cout << nearest << endl;
 
                         objects.at(nearest).anchored = !objects.at(nearest).anchored;
-                    }
-                    if (event.key.key == SDLK_RIGHT){
-                        forceMagnitude += forceMagnitude / 10;
-                    }
-                    if (event.key.key == SDLK_LEFT){
-                        forceMagnitude -= forceMagnitude / 10;
-                    }
-                    if (event.key.key == SDLK_K){
-                        step = !step;
                     }
                     break;
             }
@@ -3100,4 +3088,5 @@ int SDL_main(int argc, char* argv[]){
 
     return 0;
 }
+
 
